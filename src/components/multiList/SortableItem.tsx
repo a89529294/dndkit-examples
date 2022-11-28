@@ -1,8 +1,7 @@
 import { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import useMountStatus from "../../utils/useMountStatus";
-import { Item } from "./Item";
-
+import { CSS } from "@dnd-kit/utilities";
 interface SortableItemProps {
   containerId: UniqueIdentifier;
   id: UniqueIdentifier;
@@ -22,23 +21,26 @@ export function SortableItem({ disabled, id, index, containerId, getIndex }: Sor
     overIndex,
     transform,
     transition,
+    attributes,
   } = useSortable({
     id,
   });
   const mounted = useMountStatus();
   const mountedWhileDragging = isDragging && !mounted;
 
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   return (
-    <Item
-      ref={disabled ? undefined : setNodeRef}
-      value={id}
-      dragging={isDragging}
-      sorting={isSorting}
-      index={index}
-      transition={transition}
-      transform={transform}
-      fadeIn={mountedWhileDragging}
-      listeners={listeners}
-    />
+    <li
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="py-5 bg-blue-200 grid place-items-center">
+      {id}
+    </li>
   );
 }

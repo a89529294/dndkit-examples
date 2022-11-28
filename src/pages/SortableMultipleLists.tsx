@@ -168,13 +168,7 @@ function SortableMultipleLists() {
         setActiveId(null);
       }}
       onDragCancel={onDragCancel}>
-      <div
-        style={{
-          display: "inline-grid",
-          boxSizing: "border-box",
-          padding: 20,
-          gridAutoFlow: "row",
-        }}>
+      <div className="flex gap-10">
         {containers.map((containerId) => (
           <DroppableContainer
             key={containerId}

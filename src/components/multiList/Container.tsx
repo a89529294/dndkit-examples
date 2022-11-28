@@ -50,12 +50,12 @@ export const Container = forwardRef<HTMLDivElement, ContainerProps>(
         onClick={onClick}
         tabIndex={onClick ? 0 : undefined}>
         {label ? (
-          <div>
+          <div className="w-40">
             {label}
             <div>{onRemove ? <Remove onClick={onRemove} /> : undefined}</div>
           </div>
         ) : null}
-        {placeholder ? children : <ul>{children}</ul>}
+        {placeholder ? children : <ul className="flex flex-col gap-5">{children}</ul>}
       </Component>
     );
   }

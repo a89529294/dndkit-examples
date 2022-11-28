@@ -38,12 +38,6 @@ function DroppableContainer({
   return (
     <Container
       ref={disabled ? undefined : setNodeRef}
-      style={{
-        ...style,
-        transition,
-        transform: CSS.Translate.toString(transform),
-        opacity: isDragging ? 0.5 : undefined,
-      }}
       hover={isOverContainer}
       handleProps={{
         ...attributes,

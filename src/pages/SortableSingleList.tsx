@@ -8,12 +8,7 @@ import {
   useSensors,
   DragEndEvent,
 } from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
 import { SortableItem } from "../components/SortableItem";
 
