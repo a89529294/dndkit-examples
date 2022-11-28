@@ -4,7 +4,7 @@ import { Remove } from "./Remove";
 
 export interface ContainerProps {
   children: React.ReactNode;
-  columns?: number;
+  style?: React.CSSProperties;
   label?: string;
   horizontal?: boolean;
   hover?: boolean;
@@ -21,7 +21,7 @@ export const Container = forwardRef<HTMLDivElement, ContainerProps>(
   (
     {
       children,
-      columns = 1,
+      style,
       handleProps,
       horizontal,
       hover,
@@ -42,13 +42,10 @@ export const Container = forwardRef<HTMLDivElement, ContainerProps>(
       <Component
         {...props}
         ref={ref as any}
-        style={
-          {
-            "--columns": columns,
-          } as React.CSSProperties
-        }
+        style={style}
         onClick={onClick}
-        tabIndex={onClick ? 0 : undefined}>
+        tabIndex={onClick ? 0 : undefined}
+        className="h-[50vh] overflow-y-auto">
         {label ? (
           <div className="w-40">
             {label}

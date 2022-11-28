@@ -1,7 +1,8 @@
 import { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
-import useMountStatus from "../../utils/useMountStatus";
-import { CSS } from "@dnd-kit/utilities";
+import { useEffect, useState } from "react";
+import { Item } from "./Item";
+
 interface SortableItemProps {
   containerId: UniqueIdentifier;
   id: UniqueIdentifier;
@@ -21,26 +22,36 @@ export function SortableItem({ disabled, id, index, containerId, getIndex }: Sor
     overIndex,
     transform,
     transition,
-    attributes,
   } = useSortable({
     id,
   });
   const mounted = useMountStatus();
   const mountedWhileDragging = isDragging && !mounted;
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
   return (
-    <li
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      className="py-5 bg-blue-200 grid place-items-center">
-      {id}
-    </li>
+    <Item
+      ref={disabled ? undefined : setNodeRef}
+      value={id}
+      dragging={isDragging}
+      sorting={isSorting}
+      index={index}
+      color={"#7193f1"}
+      transition={transition}
+      transform={transform}
+      fadeIn={mountedWhileDragging}
+      listeners={listeners}
+    />
   );
+}
+
+function useMountStatus() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsMounted(true), 500);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
+  return isMounted;
 }

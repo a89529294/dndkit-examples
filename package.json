@@ -12,6 +12,7 @@
     "@dnd-kit/core": "^6.0.5",
     "@dnd-kit/sortable": "^7.0.1",
     "@tanstack/react-router": "^0.0.1-beta.28",
+    "classnames": "^2.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

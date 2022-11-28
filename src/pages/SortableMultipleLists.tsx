@@ -9,6 +9,9 @@ import {
   DragEndEvent,
   UniqueIdentifier,
   MeasuringStrategy,
+  DragOverlay,
+  defaultDropAnimationSideEffects,
+  DropAnimation,
 } from "@dnd-kit/core";
 import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
@@ -17,12 +20,15 @@ import collisionDetectionStrategy from "../utils/customCollisionStrategy";
 import createRange from "../utils/createRange";
 import findContainer from "../utils/findContainer";
 import DroppableContainer from "../components/multiList/DroppableContainer";
+import { createPortal } from "react-dom";
+import { Container } from "../components/multiList/Container";
+import { Item } from "../components/multiList/Item";
 
 export type Items = Record<UniqueIdentifier, UniqueIdentifier[]>;
 
 function SortableMultipleLists() {
   const [items, setItems] = useState<Items>(() => ({
-    A: createRange(3, (index) => `A${index + 1}`),
+    A: createRange(15, (index) => `A${index + 1}`),
     B: createRange(4, (index) => `B${index + 1}`),
     C: createRange(1, (index) => `C${index + 1}`),
     D: createRange(2, (index) => `D${index + 1}`),
@@ -61,6 +67,36 @@ function SortableMultipleLists() {
     setActiveId(null);
     setClonedItems(null);
   };
+
+  const dropAnimation: DropAnimation = {
+    sideEffects: defaultDropAnimationSideEffects({
+      styles: {
+        active: {
+          opacity: "0.5",
+        },
+      },
+    }),
+  };
+
+  function renderSortableItemDragOverlay(id: UniqueIdentifier) {
+    return <Item value={id} color={"#7193f1"} dragOverlay />;
+  }
+
+  function renderContainerDragOverlay(containerId: UniqueIdentifier) {
+    return (
+      <Container
+        label={`Column ${containerId}`}
+        style={{
+          height: "100%",
+        }}
+        shadow
+        unstyled={false}>
+        {items[containerId].map((item, index) => (
+          <Item key={item} value={item} color={"#7193f1"} />
+        ))}
+      </Container>
+    );
+  }
 
   return (
     <DndContext
@@ -174,10 +210,8 @@ function SortableMultipleLists() {
             key={containerId}
             id={containerId}
             label={`Column ${containerId}`}
-            columns={1}
             items={items[containerId]}
             scrollable={true}
-            style={{}}
             onRemove={() => handleRemove(containerId)}>
             <SortableContext items={items[containerId]} strategy={verticalListSortingStrategy}>
               {items[containerId].map((value, index) => {
@@ -196,8 +230,8 @@ function SortableMultipleLists() {
           </DroppableContainer>
         ))}
       </div>
-      {/* {createPortal(
-        <DragOverlay adjustScale={adjustScale} dropAnimation={dropAnimation}>
+      {createPortal(
+        <DragOverlay dropAnimation={dropAnimation}>
           {activeId
             ? containers.includes(activeId)
               ? renderContainerDragOverlay(activeId)
@@ -205,7 +239,7 @@ function SortableMultipleLists() {
             : null}
         </DragOverlay>,
         document.body
-      )} */}
+      )}
     </DndContext>
   );
 }
