@@ -7,7 +7,7 @@ function Draggable({ children, id }: { children: ReactNode; id?: string }) {
   // listeners is an object of the form {onKeyDown:f, onPointerDown:f }
   // transform is null when the draggable item is stationary, if its being dragged it becomes
   // {x:number, y:number, scaleX:number, scaleY:number}
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+  const { attributes, listeners, setNodeRef, transform, active } = useDraggable({
     id: id ?? "draggable",
     data: {
       type: "type1",
