@@ -43,7 +43,7 @@ function MultipleContainers() {
   );
 
   function handleDragEnd(event: DragEndEvent) {
-    // active which is the draggable item, over which is the droppable area
+    // active is the draggable item, over is the droppable area
     const { over, active } = event;
 
     if (over && active) {

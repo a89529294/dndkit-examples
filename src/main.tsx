@@ -6,6 +6,8 @@ import "./index.css";
 import Index from "./pages";
 import SingleContainer from "./pages/single-container";
 import MultipleContainers from "./pages/multiple-containers";
+import UsingDragOverlay from "./pages/using-dragoverlay";
+import Sortable from "./pages/sortable";
 
 // Create a root route
 const rootRoute = new RootRoute({
@@ -18,6 +20,8 @@ function Root() {
       <div className="flex gap-3">
         <Link to="/">Index</Link> <Link to="/single-container">Single Container</Link>
         <Link to="/multiple-containers">Multiple Containers</Link>
+        <Link to="/using-dragoverlay">Drag Overlay</Link>
+        <Link to="/sortable">Sortable</Link>
       </div>
       <hr />
       <Outlet />
@@ -43,8 +47,26 @@ const multipleContainersRoute = new Route({
   component: MultipleContainers,
 });
 
+const usingDragOverlay = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/using-dragoverlay",
+  component: UsingDragOverlay,
+});
+
+const sortable = new Route({
+  getParentRoute: () => rootRoute,
+  path: "/sortable",
+  component: Sortable,
+});
+
 // Create the route tree using your routes
-const routeTree = rootRoute.addChildren([indexRoute, singleContainerRoute, multipleContainersRoute]);
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  singleContainerRoute,
+  multipleContainersRoute,
+  usingDragOverlay,
+  sortable,
+]);
 
 // Create the router using your route tree
 const router = new ReactRouter({ routeTree });
